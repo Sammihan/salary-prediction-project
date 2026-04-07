@@ -5,25 +5,97 @@
     <link rel="stylesheet" href="/static/style.css" />
   </head>
   <body>
-    <h2>Salary Prediction System</h2>
+    <div class="page-shell">
+      <section class="hero">
+        <p class="eyebrow">Salary Prediction</p>
+        <p class="hero-copy">
+          Choose the profile details below to predict salary and explore a few quick insights from the dataset.
+        </p>
+      </section>
 
-    <form action="/predict" method="post">
-      <label>Age:</label>
-      <input type="number" name="age" required />
+      {% if error %}
+      <p class="error-message">{{ error }}</p>
+      {% endif %}
 
-      <label>Gender:</label>
-      <input type="text" name="gender" placeholder="Male/Female" required />
+      <form action="/predict" method="post" class="form-card">
+        <div class="field-group">
+          <label>Age</label>
+          <input
+            type="number"
+            name="age"
+            min="{{ age_min }}"
+            max="{{ age_max }}"
+            step="1"
+            value="{{ form_data.get('age', '') }}"
+            required
+          />
+        </div>
 
-      <label>Education Level:</label>
-      <input type="text" name="education" required />
+        <div class="field-group">
+          <label>Gender</label>
+          <select name="gender" required>
+            <option value="">Select gender</option>
+            {% for gender in genders %}
+            <option value="{{ gender }}" {% if form_data.get('gender') == gender %}selected{% endif %}>
+              {{ gender }}
+            </option>
+            {% endfor %}
+          </select>
+        </div>
 
-      <label>Job Title:</label>
-      <input type="text" name="job" required />
+        <div class="field-group">
+          <label>Education Level</label>
+          <select name="education" required>
+            <option value="">Select education level</option>
+            {% for education in education_levels %}
+            <option value="{{ education }}" {% if form_data.get('education') == education %}selected{% endif %}>
+              {{ education }}
+            </option>
+            {% endfor %}
+          </select>
+        </div>
 
-      <label>Years of Experience:</label>
-      <input type="number" step="0.1" name="experience" required />
+        <div class="field-group">
+          <label>Job Title</label>
+          <select name="job" required>
+            <option value="">Select job title</option>
+            {% for job in job_titles %}
+            <option value="{{ job }}" {% if form_data.get('job') == job %}selected{% endif %}>
+              {{ job }}
+            </option>
+            {% endfor %}
+          </select>
+        </div>
 
-      <button type="submit">Predict Salary</button>
-    </form>
+        <div class="field-group">
+          <label>Years of Experience</label>
+          <input
+            type="number"
+            step="0.1"
+            name="experience"
+            min="{{ experience_min }}"
+            max="{{ experience_max }}"
+            value="{{ form_data.get('experience', '') }}"
+            required
+          />
+        </div>
+
+        <button type="submit">Predict Salary</button>
+      </form>
+
+      {% if charts %}
+      <section class="chart-section">
+        <h3>Project Insights</h3>
+
+        <div class="chart-grid">
+          {% for chart in charts %}
+          <div class="chart-card">
+            <img src="{{ url_for('static', filename=chart) }}" alt="Salary insight graph" />
+          </div>
+          {% endfor %}
+        </div>
+      </section>
+      {% endif %}
+    </div>
   </body>
 </html>

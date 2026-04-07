@@ -5,12 +5,14 @@
     <link rel="stylesheet" href="/static/style.css">
 </head>
 <body>
-
-<h2>Predicted Salary</h2>
-
-<h1>₹ {{ salary }}</h1>
-
-<a href="/">Go Back</a>
-
+    <div class="page-shell">
+        <section class="result-card">
+            <p class="eyebrow">Prediction Result</p>
+            <h2>Estimated Salary</h2>
+            <div class="salary-pill">Rs. {{ salary }}</div>
+            <p class="hero-copy">This estimate is based on the details you entered in the form.</p>
+            <a class="back-link" href="/">Go Back</a>
+        </section>
+    </div>
 </body>
 </html>
